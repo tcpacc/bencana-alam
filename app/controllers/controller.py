@@ -25,12 +25,7 @@ def index():
     for i in range(1990,2026):
         graphLabels.append(i)
         graphValues.append(totals.count(i))
-    # if request.method == "POST":
-    #     product = Product( name=request.form["name"], price=request.form["price"], category_id=request.form["category_id"]  )
-    #     product.save()
-    #     return redirect("/")
     bencanaAlam = BencanaAlam.get_all()
-    # categories = Category.get_all()
     return render_template("index.html",bencanaAlam = bencanaAlam,countries=countries,graphLabels=graphLabels,graphValues=graphValues,selectedCountryId = selectedCountryId,countriesNegaraList=countriesNegaraList,countriesTotalList=countriesTotalList,selectedDisasters = selectedDisasters)
 
 @controller_bp.route('/addCountry',methods = ['POST','GET'])
