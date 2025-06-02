@@ -1,4 +1,0 @@
-table 1 => countries ,id,and total amount of natural disasters(found by counting the amount of times the country name(/id?) appears in the 2nd table) V
-table 2 => natural disater name , the year it happened in, country id or name?,and the type of natural disasters V
-add more to table V
-simple graphing of data
