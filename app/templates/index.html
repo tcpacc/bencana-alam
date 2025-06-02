@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bencana alam</title>
+
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" >
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body style="padding: 10px;">
+    <div style="float: left;"> 
+        <form action="/" method = "POST" style="display: flex;gap: 5px;">
+            <select name="countries" id="countries" class="form-select" aria-label="Disabled select example" >
+                <option value="0">All</option>
+                {%for country in countries%}
+                    {%if selectedCountryId == country.id%}
+                    <option value={{country.id}} selected>{{country.negara}}</option>
+                    {%else%}
+                    <option value={{country.id}} >{{country.negara}}</option>
+                    {%endif%}
+                {%endfor%}
+            </select>
+            <button class="btn btn-outline-primary">Go</button>
+        </form>
+    </div>
+    <div style="float: right;">
+        <a href="/addCountry" class="btn btn-outline-primary">tambah negara</a>
+        <a href="/addDisaster" class="btn btn-outline-primary">tambah bencana alam</a>
+    </div>
+    <canvas id="lineChart" width="1000" height="400" style="margin-top: 30px;"></canvas>
+    <canvas id="pieChart" width="1000" height="400" style="float: left;"></canvas>
+    <table class="table table-striped" style="height: 100px !important;overflow-y: scroll !important;">
+        <tr>
+            <th>Bencana</th>
+            <th>Negara</th>
+            <th>Tahun</th>
+        </tr>
+        {%for disaster in selectedDisasters%}
+        <tr>
+            <td>{{disaster.nama}}</td>
+            <td>{{disaster.Negara.negara}}</td>
+            <td>{{disaster.tahun}}</td>
+        </tr>
+        {%endfor%}
+    </table>
+    
+    <script>
+        var ctx = document.getElementById("lineChart").getContext("2d");
+        var lineChart = new Chart(ctx,{
+            type:"line",
+            data:{
+                labels : {{graphLabels | safe}},
+                datasets : [{
+                    label :"Total bencana alam",
+                    data : {{graphValues | safe}},
+                    fill:false,
+                    borderColor:"#0d6efd",
+                    lineTension:0.1,
+            }]},
+            options:{
+                scales: {
+                    x:{
+                        title:{
+                            display:true,
+                            text : 'Tahun'
+                        },
+                        ticks: {
+							callback: 
+						function (val, index) {
+								return index % 5 === 0 ? this.getLabelForValue(val) : '';
+						}}
+                    },
+                    y:{
+                        title:{
+                            display:true,
+                            text:"Total"
+                        },
+                        beginAtZero :true
+                    }
+                }
+            }
+        });
+        var cty = document.getElementById("pieChart").getContext("2d")
+        var pieChart = new Chart(cty,{
+            type:"pie",
+            data:{
+                labels:{{countriesNegaraList | safe}},
+                datasets:[{
+                    data: {{countriesTotalList | safe}}
+                }]
+            },options:{
+                responsive : false  
+            }
+            
+        })
+    </script>
+</body>
+</html>
