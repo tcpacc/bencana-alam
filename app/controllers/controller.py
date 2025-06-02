@@ -46,11 +46,12 @@ def addCountry():
 @controller_bp.route('/addDisaster',methods = ['POST','GET'])
 def addDisaster():
     if request.method == 'POST':
-        bencana = BencanaAlam(nama = request.form["name"],tipe = request.form["type"],tahun = request.form["year"],id_negara = request.form['countries'])
-        bencana.save()
-        chosenCountry = Negara.query.filter_by(id = request.form['countries']).first()
-        chosenCountry.add_total()
-        return redirect('/')
+        if BencanaAlam.query.filter_by(nama = request.form['name'],id_negara = request.form['countries'],tahun = request.form["year"]).first() ==None:
+            bencana = BencanaAlam(nama = request.form["name"],tipe = request.form["type"],tahun = request.form["year"],id_negara = request.form['countries'])
+            bencana.save()
+            chosenCountry = Negara.query.filter_by(id = request.form['countries']).first()
+            chosenCountry.add_total()
+            return redirect('/')
     return render_template("addDisaster.html",countries=sorted(Negara.get_all(),key = lambda x : x.negara))
 
 
