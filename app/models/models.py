@@ -11,9 +11,6 @@ class Negara(db.Model):
     def get_all():
         return Negara.query.all()
 
-    # @staticmethod
-    # def get_by_id(id):
-    #     return Category.query.get(id)
 
     def save(self):
         db.session.add(self)
@@ -23,9 +20,6 @@ class Negara(db.Model):
         self.totalBencanaAlam+=1
         db.session.commit()
 
-    # def delete(self):
-    #     db.session.delete(self)
-    #     db.session.commit()
 
 
 class BencanaAlam(db.Model):
@@ -40,14 +34,8 @@ class BencanaAlam(db.Model):
     def get_all():
         return BencanaAlam.query.all()
 
-    # @staticmethod
-    # def get_by_id(id):
-    #     return Product.query.get(id)
 
     def save(self):
         db.session.add(self)
         db.session.commit()
 
-    # def delete(self):
-    #     db.session.delete(self)
-    #     db.session.commit()
