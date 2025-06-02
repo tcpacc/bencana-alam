@@ -53,23 +53,3 @@ def addDisaster():
             chosenCountry.add_total()
             return redirect('/')
     return render_template("addDisaster.html",countries=sorted(Negara.get_all(),key = lambda x : x.negara))
-
-
-# @controller_bp.route('/hapus/<id>')
-# def hapus(id):
-#     product = Product.get_by_id(id)
-#     if product:
-#         product.delete()
-#     return redirect("/")
-
-# @controller_bp.route('/update/<id>', methods=["GET", "POST"])
-# def update(id):
-#     product = Product.get_by_id(id)
-#     categories = Category.get_all()
-#     if request.method == "POST":
-#         product.name = request.form["name"]
-#         product.price = request.form["price"]
-#         product.category_id = request.form["category_id"]
-#         product.save()
-#         return redirect("/")
-#     return render_template("update.html", product=product, categories=categories)
